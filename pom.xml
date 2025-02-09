@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>manager-app</module>
+        <module>catalogue-service</module>
     </modules>
 
     <properties>
@@ -30,5 +31,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <parameters>
+                        true
+                    </parameters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
