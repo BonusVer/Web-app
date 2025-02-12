@@ -1,4 +1,10 @@
 spring:
+  security:
+    user:
+      roles:
+        - SERVICE
+      password: password
+      name: catalogue_service_user
   datasource:
     url: jdbc:postgresql://localhost:5433/catalogue
     username: catalogue
