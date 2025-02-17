@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
+
 class ProductsRestControllerIT {
 
     @Autowired
@@ -47,6 +49,35 @@ class ProductsRestControllerIT {
                                   {"id" :  3, "title" :  "Товар 3", "details" : "Описание3"}
                                 ]""")
                 );
+    }
+
+    @Test
+    void createProduct_RequestIsValid_ReturnsNewProduct() throws Exception {
+        //given
+
+        var requestBuilder = MockMvcRequestBuilders.post("/catalogue-api/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"title": "Еще один товар", "details": "Какое-то описание товара"}""")
+                .with(jwt().jwt(builder -> builder.claim("scope", "edit_catalogue")));
+
+        //when
+
+        this.mvc.perform(requestBuilder)
+
+        //then
+
+                .andDo(print())
+                .andExpectAll(
+                        status().isCreated(),
+                        header().string(HttpHeaders.LOCATION, "http://localhost/catalogue-api/products/1"),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        content().json("""
+                                 {
+                                     "id": 1,
+                                     "title": "Еще один товар",
+                                     "details": "Какое-то описание товара"
+                                 }"""));
     }
   
 }
