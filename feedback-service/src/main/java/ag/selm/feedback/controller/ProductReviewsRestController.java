@@ -34,7 +34,7 @@ public class ProductReviewsRestController {
             UriComponentsBuilder uriComponentsBuilder) {
         return  payloadMono
                 .flatMap(payload -> this.productReviewsService.createProductReview(payload.productId(),
-                        payload.rating(), payload.reviews()))
+                        payload.rating(), payload.review()))
                 .map(productReview -> ResponseEntity.created(uriComponentsBuilder.replacePath("/feedback-api/product-reviews/{id}")
                                 .build(productReview.getId()))
                         .body(productReview));
