@@ -5,13 +5,8 @@ import ag.selm.feedback.entity.ProductReview;
 import ag.selm.feedback.service.ProductReviewsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,6 +17,7 @@ import reactor.core.publisher.Mono;
 public class ProductReviewsRestController {
 
     private final ProductReviewsService productReviewsService;
+
 
     @GetMapping("by-product-id/{productId:\\d+}")
     public Flux<ProductReview> findProductReviewsByProductId(@PathVariable("productId") int productId) {
