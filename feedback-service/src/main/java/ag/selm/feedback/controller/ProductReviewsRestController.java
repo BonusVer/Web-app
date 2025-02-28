@@ -5,22 +5,27 @@ import ag.selm.feedback.entity.ProductReview;
 import ag.selm.feedback.service.ProductReviewsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("feedback-api/product-reviews")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductReviewsRestController {
 
     private final ProductReviewsService productReviewsService;
 
 
     @GetMapping("by-product-id/{productId:\\d+}")
-    public Flux<ProductReview> findProductReviewsByProductId(@PathVariable("productId") int productId) {
+    public Flux<ProductReview> findProductReviewsByProductId(@PathVariable("productId") int productId,
+                                                             Mono<Principal> principalMono) {
         return this.productReviewsService.findProductReviewsByProduct(productId);
     }
 
