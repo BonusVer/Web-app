@@ -26,7 +26,13 @@ public class ProductReviewsRestController {
     @GetMapping("by-product-id/{productId:\\d+}")
     public Flux<ProductReview> findProductReviewsByProductId(@PathVariable("productId") int productId,
                                                              Mono<Principal> principalMono) {
-        return this.productReviewsService.findProductReviewsByProduct(productId);
+        return principalMono.flatMapMany(principal -> {
+            log.info("Principal: {}", principal);
+            return this.productReviewsService.findProductReviewsByProduct(productId);
+        }
+
+        );
+
     }
 
     @PostMapping
