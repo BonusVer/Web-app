@@ -18,4 +18,6 @@ public class FavoriteProduct {
     private UUID id;
 
     private int productId;
+
+    private String userId;
 }
