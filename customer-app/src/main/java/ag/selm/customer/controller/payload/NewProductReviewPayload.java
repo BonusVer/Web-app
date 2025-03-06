@@ -1,5 +1,5 @@
 package ag.selm.customer.controller.payload;
 
 
-public record NewProductReviewPayload(Integer rating, int i, String review) {
+public record NewProductReviewPayload(Integer rating, String review) {
 }

@@ -1,7 +1,7 @@
 package ag.selm.customer.client;
 
 import ag.selm.customer.client.exception.ClientBadRequestException;
-import ag.selm.customer.controller.payload.NewProductReviewPayload;
+import ag.selm.customer.client.payload.NewProductReviewPayload;
 import ag.selm.customer.entity.ProductReview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ProblemDetail;
