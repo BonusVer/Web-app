@@ -10,6 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.mock.http.server.reactive.MockServerHttpResponse;
 import org.springframework.ui.ConcurrentModel;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -81,10 +83,12 @@ class ProductControllerTest {
         //given
         var exception = new NoSuchElementException("Товар не найден");
         var model = new ConcurrentModel();
+        var response = new MockServerHttpResponse();
         //when
-        var result = this.controller.handleNoSuchElementException(exception, model);
+        var result = this.controller.handleNoSuchElementException(exception, model, response);
         //then
         assertEquals("errors/404", result);
         assertEquals("Товар не найден", model.getAttribute("error"));
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

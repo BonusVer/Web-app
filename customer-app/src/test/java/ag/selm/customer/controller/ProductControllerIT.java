@@ -31,8 +31,7 @@ class ProductControllerIT {
                            "id": 1,
                             "title": "Название товара №1",
                             "details" : "Описание товара №1"
-                        }
-                        """)
+                        }""")
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
         WireMock.stubFor(WireMock.post("/feedback-api/favorite-products")
                 .withRequestBody(WireMock.equalToJson("""
@@ -55,11 +54,11 @@ class ProductControllerIT {
                 .mutateWith(mockUser())
                 .mutateWith(csrf())
                 .post()
-                .uri("customer/products/1/add-to-favorites")
+                .uri("/customer/products/1/add-to-favorites")
         //then
                 .exchange()
                 .expectStatus().is3xxRedirection()
-                .expectHeader().location("customer/products/1");
+                .expectHeader().location("/customer/products/1");
 
         WireMock.verify(getRequestedFor(urlPathMatching("/catalogue-api/products/1")));
         WireMock.verify(postRequestedFor(urlPathMatching("/feedback-api/favorite-products"))
@@ -68,5 +67,22 @@ class ProductControllerIT {
                             "productId": 1
                         }
                         """)));
+    }
+    @Test
+    void addProductToFavorites_ProductDoesNotExists_ReturnsNotFoundPage() {
+        //given
+
+
+        //when
+        this.webTestClient
+                .mutateWith(mockUser())
+                .mutateWith(csrf())
+                .post()
+                .uri("/customer/products/1/add-to-favorites")
+                //then
+                .exchange()
+                .expectStatus().isNotFound();
+
+        WireMock.verify(getRequestedFor(urlPathMatching("/catalogue-api/products/1")));
     }
 }
