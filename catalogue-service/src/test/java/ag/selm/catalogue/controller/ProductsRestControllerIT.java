@@ -1,17 +1,20 @@
 package ag.selm.catalogue.controller;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
+
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -20,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(RestDocumentationExtension.class)
 
 class ProductsRestControllerIT {
 
@@ -61,7 +65,7 @@ class ProductsRestControllerIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"title": "Еще один товар", "details": "Какое-то описание товара"}""")
-                .with(jwt().jwt(builder -> builder.claim("scope", "view_catalogue")));
+                .with(jwt().jwt(builder -> builder.claim("scope", "edit_catalogue")));
 
         //when
 
