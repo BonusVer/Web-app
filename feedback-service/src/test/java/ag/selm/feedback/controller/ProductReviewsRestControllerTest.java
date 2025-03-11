@@ -4,23 +4,32 @@ import ag.selm.feedback.entity.ProductReview;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockJwt;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
+@AutoConfigureRestDocs
+@ExtendWith(RestDocumentationExtension.class)
 class ProductReviewsRestControllerTest {
 
     @Autowired
@@ -86,7 +95,28 @@ class ProductReviewsRestControllerTest {
                             "rating" : 5,
                             "review" : "Отлично!!!",
                             "userId": "user-tester"
-                        }""").jsonPath("$.id").exists();
+                        }""").jsonPath("$.id").exists()
+                .consumeWith(document("feedback/product_reviews/create_product_review" ,
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("productId").type("int").description("Идентификатор товара"),
+                                fieldWithPath("rating").type("int").description("Оценка товара"),
+                                fieldWithPath("review").type("string").description("Отзыв товара")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type("uuid").description("Идентификатор отзвыа"),
+                                fieldWithPath("productId").type("int").description("Идентификатор товара"),
+                                fieldWithPath("rating").type("int").description("Оценка товара"),
+                                fieldWithPath("review").type("string").description("Отзыв товара"),
+                                fieldWithPath("userId").type("string").description("Идентификатор пользователя")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION)
+                                        .description("Ссылка на созданный отзыв о товаре")
+
+                        )
+                        ));
     }
 
     @Test
