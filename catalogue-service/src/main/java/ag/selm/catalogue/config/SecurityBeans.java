@@ -23,6 +23,7 @@ public class SecurityBeans {
                         .hasAuthority("SCOPE_edit_catalogue")
                         .requestMatchers(HttpMethod.DELETE, "/catalogue-api/products/{productId:\\d}")
                         .hasAuthority("SCOPE_edit_catalogue")
+                        .requestMatchers("/actuator/**").hasAuthority("SCOPE_metrics")
                         .requestMatchers(HttpMethod.GET).hasAuthority("SCOPE_view_catalogue")
                         .anyRequest().denyAll())
                 .csrf(CsrfConfigurer::disable)

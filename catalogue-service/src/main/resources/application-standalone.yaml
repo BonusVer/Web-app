@@ -1,4 +1,12 @@
 spring:
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          name: catalogue-service
+          service-host-type: ip
+        url: http://localhost:8085
   datasource:
     url: jdbc:postgresql://localhost:5433/catalogue
     username: catalogue
@@ -34,3 +42,13 @@ springdoc:
 keycloak:
   uri: http://localhost:8082
 
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
