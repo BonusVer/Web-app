@@ -4,6 +4,10 @@ server:
 spring:
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+            issuer-uri: http://localhost:8082/realms/selmag
       client:
         provider:
           keycloak:
@@ -14,5 +18,12 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - metrics
+            client-id: admin-service
+            client-secret: 5a9qB16HzmLoq5Vv5sXiCUQRDVijROCe
+          login:
+            provider: keycloak
+            scope:
+              - metrics
+              - openid
             client-id: admin-service
             client-secret: 5a9qB16HzmLoq5Vv5sXiCUQRDVijROCe
