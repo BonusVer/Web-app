@@ -2,11 +2,12 @@ spring:
   boot:
     admin:
       client:
+        url: http://localhost:8085
         enabled: true
         instance:
           name: catalogue-service
           service-host-type: ip
-        url: http://localhost:8085
+
   datasource:
     url: jdbc:postgresql://localhost:5433/catalogue
     username: catalogue
@@ -32,7 +33,7 @@ spring:
         registration:
           keycloak:
             client-id: catalogue-service-metrics-client
-            client-secret: lDfK1ckd1mfjVKxXv8onNnxorcQ7MZ0l
+            client-secret: LWRWGTNOni7xr9oIh52Wt6bS9jRcQy6Q
             authorization-grant-type: client_credentials
             scope:
               - metrics_server
