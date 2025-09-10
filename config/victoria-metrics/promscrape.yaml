@@ -1,0 +1,13 @@
+scrape_configs:
+  - job_name: selmag_admin_service
+    static_configs:
+      - targets: ["http://host.docker.internal:8085"]
+    metrics_path: /actuator/prometheus
+    oauth2:
+      client_id: victoria-metrics
+      client_secret: SIqEYXi9SBE3waMXIwJnzxTPHfJ2doLc
+      token_url: http://host.docker.internal:8082/realms/selmag/protocol/openid-connect/token
+      scopes:
+        - metrics
+      endpoint_params:
+        grant_type: client_credentials
