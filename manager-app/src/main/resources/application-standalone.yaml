@@ -26,3 +26,5 @@ spring:
           keycloak:
             issuer-uri: http://localhost:8082/realms/selmag
             user-name-attribute: preferred_username
+  application:
+    name: selmag-manager-app
