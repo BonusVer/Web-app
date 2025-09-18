@@ -1,0 +1,35 @@
+server:
+  port: 8086
+  forward-headers-strategy: framework
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: catalogue-service-route
+          uri: http://localhost:8081
+          predicates:
+            - Host=catalogue.api.selm.ag
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8082/realms/selmag
+        registration:
+          discovery:
+            provider: keycloak
+            client-id: api-gateway
+            client-secret:
+            authorization-grand-type: client_credentials
+            scope:
+              - discovery
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 1
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    registryFetchIntervalSeconds: 1
+    register-with-eureka: false
