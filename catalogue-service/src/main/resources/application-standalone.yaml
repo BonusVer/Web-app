@@ -34,11 +34,18 @@ spring:
             issuer-uri: http://localhost:8082/realms/selmag
         registration:
           keycloak:
-            client-id: catalogue-service-metrics-client
+            client-id: catalogue-service
             client-secret: LWRWGTNOni7xr9oIh52Wt6bS9jRcQy6Q
             authorization-grant-type: client_credentials
             scope:
               - metrics_server
+          discovery:
+            provider: keycloak
+            client-id: catalogue-service
+            client-secret: LWRWGTNOni7xr9oIh52Wt6bS9jRcQy6Q
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
 
 
 server:
